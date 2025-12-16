@@ -33,6 +33,23 @@ class CreatePostView extends StatelessWidget {
                 alignLabelWithHint: true,
               ),
             ),
+
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                controller.createPost();
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+
+                decoration: BoxDecoration(
+                  color: Colors.cyanAccent,
+
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text('create post'),
+              ),
+            ),
           ],
         ),
       ),
