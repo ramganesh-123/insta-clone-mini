@@ -12,6 +12,10 @@ class FeedView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Mini Feed'), centerTitle: true),
       body: Center(child: Text('No Data')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: controller.navigateToCreatePost,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
