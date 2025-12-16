@@ -11,7 +11,31 @@ class CreatePostView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Create Post'), centerTitle: true),
-      body: Center(child: Text('creating post')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: controller.uploaderNameController,
+              decoration: const InputDecoration(
+                labelText: 'Your Name',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller.captionController,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                labelText: 'Caption',
+                border: OutlineInputBorder(),
+                alignLabelWithHint: true,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
