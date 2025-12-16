@@ -33,8 +33,39 @@ class CreatePostView extends StatelessWidget {
                 alignLabelWithHint: true,
               ),
             ),
+            SizedBox(height: 16),
+
+            Obx(() {
+              final image = controller.selectedImage.value;
+              return GestureDetector(
+                onTap: controller.pickImage,
+                child: Container(
+                  height: 300,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey[200],
+                  ),
+                  child: image == null
+                      ? const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_photo_alternate, size: 60),
+                            SizedBox(height: 8),
+                            Text('Tap to select image'),
+                          ],
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(image, fit: BoxFit.cover),
+                        ),
+                ),
+              );
+            }),
 
             SizedBox(height: 16),
+
             GestureDetector(
               onTap: () {
                 controller.createPost();
