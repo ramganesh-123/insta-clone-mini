@@ -32,4 +32,58 @@ class FirebaseService {
           }).toList();
         });
   }
+
+  Future<void> toggleLike(String postId, String userId) async {
+    try {
+      DocumentReference postRef = _firestore.collection('posts').doc(postId);
+
+      await _firestore.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(postRef);
+
+        if (!snapshot.exists) {
+          throw Exception('Post does not exist');
+        }
+
+        Map<String, dynamic> postData = snapshot.data() as Map<String, dynamic>;
+
+        List<String> likedByUsers = List<String>.from(
+          postData['likedBy'] ?? [],
+        );
+        int currentLikesCount = postData['likesCount'] ?? 0;
+
+        if (likedByUsers.contains(userId)) {
+          likedByUsers.remove(userId);
+          currentLikesCount = currentLikesCount - 1;
+        } else {
+          likedByUsers.add(userId);
+          currentLikesCount = currentLikesCount + 1;
+        }
+
+        transaction.update(postRef, {
+          'likedBy': likedByUsers,
+          'likesCount': currentLikesCount,
+        });
+      });
+    } catch (e) {
+      throw Exception('Failed to toggle like: $e');
+    }
+  }
+
+  Future<PostModel> getPostById(String postId) async {
+    try {
+      DocumentSnapshot doc = await _firestore
+          .collection('posts')
+          .doc(postId)
+          .get();
+
+      if (!doc.exists) {
+        throw Exception('Post not found');
+      }
+
+      Map<String, dynamic> postData = doc.data() as Map<String, dynamic>;
+      return PostModel.fromJson(postData, doc.id);
+    } catch (e) {
+      throw Exception('Failed to get post: $e');
+    }
+  }
 }

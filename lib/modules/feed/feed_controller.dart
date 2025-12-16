@@ -34,4 +34,8 @@ class FeedController extends GetxController {
       },
     );
   }
+
+  void navigateToPostDetail(PostModel post) {
+    Get.toNamed('/post-detail', arguments: post);
+  }
 }
