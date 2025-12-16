@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:insta_clone_mini/data/models/postmodel.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -18,5 +19,17 @@ class FirebaseService {
     } catch (e) {
       throw Exception('Failed to create post: $e');
     }
+  }
+
+  Stream<List<PostModel>> getPosts() {
+    return _firestore
+        .collection('posts')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc) {
+            return PostModel.fromJson(doc.data(), doc.id);
+          }).toList();
+        });
   }
 }
