@@ -66,21 +66,29 @@ class CreatePostView extends StatelessWidget {
 
             SizedBox(height: 16),
 
-            GestureDetector(
-              onTap: () {
-                controller.createPost();
-              },
-              child: Container(
-                padding: EdgeInsets.all(10),
+            Obx(() {
+              return GestureDetector(
+                onTap: controller.isUploading.value
+                    ? null
+                    : controller.createPost,
+                child: controller.isUploading.value
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(10),
 
-                decoration: BoxDecoration(
-                  color: Colors.cyanAccent,
+                        decoration: BoxDecoration(
+                          color: Colors.cyanAccent,
 
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text('create post'),
-              ),
-            ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text('create post'),
+                      ),
+              );
+            }),
           ],
         ),
       ),
