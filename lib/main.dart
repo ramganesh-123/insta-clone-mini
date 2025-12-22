@@ -4,11 +4,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:insta_clone_mini/data/services/firebase_services.dart';
+import 'package:insta_clone_mini/firebase_options.dart';
 import 'package:insta_clone_mini/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Get.put(FirebaseService());
 
   runApp(const MyApp());
